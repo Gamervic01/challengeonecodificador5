@@ -1,20 +1,33 @@
-// JavaScript source code
-function encryptText(text, shift) {
-  let result = "";
-  for (let i = 0; i < text.length; i++) {
-    let charCode = text.charCodeAt(i);
+function encrypt() {
+  let originalText = document.getElementById("original-text").value;
+  let shift = parseInt(document.getElementById("shift").value);
+  let encryptedText = "";
+  for (let i = 0; i < originalText.length; i++) {
+    let charCode = originalText.charCodeAt(i);
     if (charCode >= 65 && charCode <= 90) {
-      result += String.fromCharCode((charCode - 65 + shift) % 26 + 65); // uppercase letter
+      encryptedText += String.fromCharCode((charCode - 65 + shift) % 26 + 65); // uppercase letter
     } else if (charCode >= 97 && charCode <= 122) {
-      result += String.fromCharCode((charCode - 97 + shift) % 26 + 97); // lowercase letter
+      encryptedText += String.fromCharCode((charCode - 97 + shift) % 26 + 97); // lowercase letter
     } else {
-      result += text.charAt(i); // non-alphabetic character
+      encryptedText += originalText.charAt(i); // non-alphabetic character
     }
   }
-  return result;
+  document.getElementById("encrypted-text").value = encryptedText;
 }
 
-// para poder usar esta funcion llamamos a "encryptText" con el texto que deseas encriptar y el número de posiciones de desplazamiento:
-//let originalText = "Hola, ¿cómo estás?";
-//let encryptedText = encryptText(originalText, 3);
-//console.log(encryptedText); // "Krñd, ëñr hvwð?"
+function decrypt() {
+  let encryptedText = document.getElementById("encrypted-text").value;
+  let shift = parseInt(document.getElementById("shift").value);
+  let decryptedText = "";
+  for (let i = 0; i < encryptedText.length; i++) {
+    let charCode = encryptedText.charCodeAt(i);
+    if (charCode >= 65 && charCode <= 90) {
+      decryptedText += String.fromCharCode((charCode - 65 - shift + 26) % 26 + 65); // uppercase letter
+    } else if (charCode >= 97 && charCode <= 122) {
+      decryptedText += String.fromCharCode((charCode - 97 - shift + 26) % 26 + 97); // lowercase letter
+    } else {
+      decryptedText += encryptedText.charAt(i); // non-alphabetic character
+    }
+  }
+  document.getElementById("original-text").value = decryptedText;
+}
